@@ -15,12 +15,14 @@ RunTracker est une application web simple permettant aux coureurs de saisir manu
 
 ## Technologies Utilisées
 
-| Catégorie       | Technologies |
-| --------------- | ------------ |
-| Frontend        | HTML5, CSS3  |
-| Backend         | PHP 8.x      |
-| Base de données | MySQL 8.x    |
-| Serveur web     | Apache/Nginx |
+| Catégorie       | Technologies   |
+| --------------- | -------------- |
+| Frontend        | HTML5, CSS3    |
+| Backend         | PHP 8.x        |
+| Base de données | MySQL 8.x      |
+| Serveur web     | Apache/Nginx   |
+| Graphiques      | ECharts/JS     |
+
 
 ---
 
