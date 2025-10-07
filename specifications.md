@@ -98,15 +98,3 @@ RunTracker est une application web simple permettant aux coureurs de saisir manu
 - Performance : Optimisation des requêtes SQL
 
 ---
-
-## Planning de Développement
-
-| Phase                                 | Description                                                                            |
-| ------------------------------------- | -------------------------------------------------------------------------------------- |
-| Phase 1 - Structure de base           | Configuration de l'environnement, création de la base de données, pages HTML statiques |
-| Phase 2 - Authentification            | Système de connexion/inscription, gestion des sessions, sécurisation                   |
-| Phase 3 - Fonctionnalités principales | Formulaire de saisie des courses, affichage de l'historique, calculs automatiques      |
-| Phase 4 - Visualisation               | Intégration de graphiques (Chart.js), page de progression, statistiques                |
-| Phase 5 - Finition                    | Tests et débogage, optimisation UI/UX, documentation                                   |
-
----
