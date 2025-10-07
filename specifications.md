@@ -93,10 +93,9 @@ RunTracker est une application web simple permettant aux coureurs de saisir manu
 
 ## Contraintes Techniques
 
-- Sécurité : Hashage des mots de passe, protection CSRF, validation des entrées
-- Responsive Design : Compatible mobile et desktop
+- Sécurité : Hashage des mots de passe, validation des entrées
+- Responsive Design : Compatible mobile et desktop (sous réserve de manque de temps)
 - Performance : Optimisation des requêtes SQL
-- Accessibilité : Respect des standards WCAG
 
 ---
 
