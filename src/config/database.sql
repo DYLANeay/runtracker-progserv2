@@ -4,11 +4,6 @@ CREATE DATABASE IF NOT EXISTS runtracker CHARACTER SET utf8mb4 COLLATE utf8mb4_u
 -- Use the database
 USE runtracker;
 
--- Drop tables if they exist (for clean setup)
-DROP TABLE IF EXISTS runs;
-
-DROP TABLE IF EXISTS users;
-
 -- Create users table
 CREATE TABLE users (
     id INT PRIMARY KEY AUTO_INCREMENT,
