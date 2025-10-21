@@ -20,7 +20,7 @@
         <h4>L'application parfaite pour suivre votre progression en course à pied</h4>
 
 
-        <p><a href="./public/pages/index.php"><button>Aller à la gestion des courses</button></a></p>
+        <p><a href="./pages/index.php"><button>Aller à la gestion des courses</button></a></p>
     </main>
 </body>
 
