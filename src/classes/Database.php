@@ -51,10 +51,10 @@ class Database implements DatabaseInterface {
 
 
         // Création de la table "runs" si elle n'existe pas
-        $sql = "CREATE TABLE runs (
+        $sql = "CREATE TABLE IF NOT EXISTS runs (
                 id INT PRIMARY KEY AUTO_INCREMENT,
                 user_id INT NOT NULL,
-                DATE DATE NOT NULL,
+                date DATE NOT NULL,
                 distance DECIMAL(5, 2) NOT NULL,
                 duration TIME NOT NULL,
                 pace TIME NOT NULL,
@@ -62,8 +62,8 @@ class Database implements DatabaseInterface {
                 created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
                 FOREIGN KEY (user_id) REFERENCES users (id) ON DELETE CASCADE ON UPDATE CASCADE,
                 INDEX idx_user_id (user_id),
-                INDEX idx_date (DATE),
-                INDEX idx_user_date (user_id, DATE)
+                INDEX idx_date (date),
+                INDEX idx_user_date (user_id, date)
             ) ENGINE = InnoDB DEFAULT CHARSET = utf8mb4 COLLATE = utf8mb4_unicode_ci;
         ";
         $stmt = $this->pdo->prepare($sql);
