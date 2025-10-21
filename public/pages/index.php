@@ -26,6 +26,11 @@ require __DIR__ . '/../../src/utils/autoloader.php';
 
         <h4>L'application parfaite pour suivre votre progression en course à pied</h4>
 
+
+        <button><a href="./progress.php">Voir ma progression</a></button>
+
+        <button><a href="./create.php">Ajouter une course</a></button>
+
     </main>
 </body>
 
