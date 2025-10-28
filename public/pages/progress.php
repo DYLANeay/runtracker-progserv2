@@ -28,6 +28,7 @@ require __DIR__ . '/../../src/utils/autoloader.php';
         <h1>Page de progression</h1>
 
         <h3>Bienvenue sur la page de progression de l'application web RunTracker.</h3>
+        <button></button>
 
         <h4></h4>
 

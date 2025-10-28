@@ -28,6 +28,7 @@ require __DIR__ . '/../../src/utils/autoloader.php';
 
 
         <button><a href="./progress.php">Voir ma progression</a></button>
+        <button><a href="./contact.php">Contactez Nous</a></button>
 
         <button><a href="./create.php">Ajouter une course</a></button>
 
