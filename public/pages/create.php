@@ -1,6 +1,9 @@
 <?php
 
 require __DIR__ . '/../../src/utils/autoloader.php';
+require __DIR__ . '/../../src/i18n/Language.php';
+$lang = Language::getInstance();
+
 // Page de création d'une nouvelle course
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "Le contenu de la variable `\$_POST` est : ";
@@ -15,8 +18,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $size = $_POST["size"];
     $notes = $_POST["notes"];
 
-     $errors = [];
-      if (empty($name)) {
+    $errors = [];
+    if (empty($name)) {
         // On ajoute un message d'erreur au tableau
         array_push($errors, "Le nom est obligatoire.");
     }
@@ -55,7 +58,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 <!DOCTYPE html>
-<html lang="fr">
+<html lang="<?= currentLang() ?>">
 
 <head>
     <meta charset="utf-8">
@@ -64,29 +67,31 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 
-    <title>Ajouter une course | RunTracker</title>
+    <title><?= t('create_title') ?> | <?= t('app_name') ?></title>
 </head>
 
 <body>
     <main class="container">
-        <h1>Bienvenue sur la page de création d'une nouvelle course de l'application web RunTracker.</h1>
-        
-        <h2>L'application parfaite pour suivre votre progression en course à pied</h2>
+        <h1><?= t('create_welcome') ?></h1>
 
-        <button><a href="./index.php">ajouter une course</a></button>
-        <button><a href="./index.php">Voir mon dashboard</a></button>
+        <h2><?= t('create_tagline') ?></h2>
 
-        <button><a href="./progress.php">Voir ma progression</a></button>
-        
-        <label for="notes">Notes :</label><br>
+        <button><a href="./index.php"><?= t('create_add_run') ?></a></button>
+        <button><a href="./index.php"><?= t('create_view_dashboard') ?></a></button>
+
+        <button><a href="./progress.php"><?= t('create_view_progress') ?></a></button>
+
+        <label for="notes"><?= t('create_notes') ?></label><br>
         <textarea id="notes" name="notes" rows="4" cols="50"><?php if (isset($notes)) echo $notes; ?></textarea>
 
         <br>
 
-        <button type="submit">Créer</button><br>
-        <button type="reset">Réinitialiser</button>
+        <button type="submit"><?= t('create_submit') ?></button><br>
+        <button type="reset"><?= t('create_reset') ?></button>
 
     </main>
+
+    <?php include __DIR__ . '/../../src/i18n/language-footer.php'; ?>
 </body>
 
 </html>
