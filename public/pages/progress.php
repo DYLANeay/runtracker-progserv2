@@ -1,6 +1,5 @@
 <?php
 
-// Retrieve data from database
 require __DIR__ . '/../../src/utils/autoloader.php';
 require __DIR__ . '/../../src/i18n/Language.php';
 $lang = Language::getInstance();
@@ -11,7 +10,6 @@ $lang = Language::getInstance();
 
 
 
-<!-- Show data -->
 <!DOCTYPE html>
 <html lang="<?= currentLang() ?>">
 
