@@ -5,14 +5,8 @@ require __DIR__ . '/../../src/utils/autoloader.php';
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     echo "Le contenu de la variable `\$_POST` est : ";
     var_dump($_POST);
-    $name = $_POST["name"];
-    $species = $_POST["species"];
-    $nickname = $_POST["nickname"];
-    $sex = $_POST["sex"];
-    $age = $_POST["age"];
-    $color = $_POST["color"];
-    $personalities = isset($_POST["personalities"]) ? $_POST["personalities"] : [];
-    $size = $_POST["size"];
+    $time = $_POST["time"];
+    $distance = $_POST["distance"];
     $notes = $_POST["notes"];
 
      $errors = [];
@@ -73,10 +67,23 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         
         <h2>L'application parfaite pour suivre votre progression en course à pied</h2>
 
-        <button><a href="./index.php">ajouter une course</a></button>
+        
         <button><a href="./index.php">Voir mon dashboard</a></button>
 
         <button><a href="./progress.php">Voir ma progression</a></button>
+            <br>
+
+        <label for="distance">Distance(en kilomètres) :</label><br>
+        <input type="number" id="distance" name="distance" value="<?php if (isset($distance)) echo $distance; ?>" min="0" step="0.1" />
+
+        <br>
+        
+          <br>
+
+        <label for="time">Temps(en minutes) :</label><br>
+        <input type="number" id="time" name="time" value="<?php if (isset($time)) echo $time; ?>" min="0" step="0.1" />
+
+        <br>
         
         <label for="notes">Notes :</label><br>
         <textarea id="notes" name="notes" rows="4" cols="50"><?php if (isset($notes)) echo $notes; ?></textarea>

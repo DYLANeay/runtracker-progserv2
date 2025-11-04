@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
  		<p><label for="nom">Nom :</label><input type="text" id="nom" name="nom" /></p>
  		<p><label for="prenom">Prénom :</label><input type="text" id="prenom" name="prenom" /></p>
  		<p><label for="email">Email :</label><input type="email" id="email" name="email" /></p>
-        <p><label for="message">Votre demande</label><input type="text" id="message" name="message"/></p>
+        <p><label for="message">Votre demande</label><input type="textarea" id="message" name="message"/></p>
  	</fieldset>
   
  	<div><input type="submit" name="envoi" value="Envoyer le formulaire !" /></div>
