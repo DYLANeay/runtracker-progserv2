@@ -97,24 +97,3 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 </body>
 
 </html>
-
-<!DOCTYPE html>
-<html lang="fr">
-
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light dark">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
-    <link rel="stylesheet" href="assets/css/style.css">
-</head>
-<form id="contact" method="post" action="traitement_formulaire.php">
-    <fieldset>
-        <legend>Vos coordonnées</legend>
-        <p><label for="nom">Nom :</label><input type="text" id="nom" name="nom" /></p>
-        <p><label for="prenom">Prénom :</label><input type="text" id="prenom" name="prenom" /></p>
-        <p><label for="email">Email :</label><input type="email" id="email" name="email" /></p>
-        <p><label for="message">Votre demande</label><input type="textarea" id="message" name="message" /></p>
-    </fieldset>
-
-    <div><input type="submit" name="envoi" value="Envoyer le formulaire !" /></div>
