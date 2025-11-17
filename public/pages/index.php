@@ -1,5 +1,8 @@
 <?php
 
+// DOIT ÊTRE LA PREMIÈRE INSTRUCTION
+session_start(); // <-- AJOUTEZ CETTE LIGNE
+
 require __DIR__ . '/../../src/utils/autoloader.php';
 require __DIR__ . '/../../src/i18n/Language.php';
 $lang = Language::getInstance();
