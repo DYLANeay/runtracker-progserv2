@@ -1,7 +1,9 @@
 <?php
-require __DIR__ . '/../src/i18n/Language.php';
+require __DIR__ . '/src/i18n/Language.php';
 $lang = Language::getInstance();
+$isLoggedIn = isset($_SESSION['user_id']);
 ?>
+
 <!DOCTYPE html>
 <html lang="<?= currentLang() ?>">
 
@@ -28,14 +30,14 @@ $lang = Language::getInstance();
             <p><a href="./pages/logout.php"><button>Se déconnecter</button></a></p>
         <?php else: ?>
             <div style="display: flex; gap: 1rem;">
-                <a href="./pages/login.php" role="button" style="margin: 0;">Se connecter</a>
+                <a href="./public/pages/login.php" role="button" style="margin: 0;">Se connecter</a>
                 
-                <a href="./pages/register.php" role="button" style="margin: 0;">Inscription</a>
+                <a href="./public/pages/register.php" role="button" style="margin: 0;">Inscription</a>
             </div>
         <?php endif; ?>
     </main>
 
-    <?php include __DIR__ . '/../src/i18n/language-footer.php'; ?>
+    <?php include __DIR__ . '/src/i18n/language-footer.php'; ?>
 </body>
 
 </html>
