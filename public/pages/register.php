@@ -36,10 +36,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $db = new Database();
             $pdo = $db->getPdo();
 
-            // 1. Hacher le mot de passe (Théorie : page 16)
+            // 1. Hacher le mot de passe
             $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Utilisation de password_hash()
 
-            // 2. Insérer l'utilisateur dans la base de données (Théorie : page 16)
+            // 2. Insérer l'utilisateur dans la base de données 
             $stmt = $pdo->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)');
             
             if ($stmt->execute([
