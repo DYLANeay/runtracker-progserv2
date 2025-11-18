@@ -1,56 +1,53 @@
 <?php
-// 1. Démarrer la session au tout début (Théorie : page 5)
+
 session_start();
 
 require __DIR__ . '/../../src/utils/autoloader.php';
 require __DIR__ . '/../../src/i18n/Language.php';
 $lang = Language::getInstance();
 
-$erreur = ''; // Variable pour stocker les messages d'erreur
+$erreur = ''; 
 
-// Vérifier si l'utilisateur est déjà authentifié
+
 if (isset($_SESSION['user_id'])) {
     header('Location: index.php');
     exit();
 }
 
-// 2. Gérer la soumission du formulaire
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
-    // Récupérer les données du formulaire
+    
     $username = htmlspecialchars(trim($_POST['username']));
     $password = $_POST['password']; 
 
     if (empty($username) || empty($password)) {
-        // Le message d'erreur est basé sur la logique de la page 18
+       
         $erreur = "Veuillez entrer un nom d'utilisateur et un mot de passe.";
     } else {
         try {
             $db = new Database();
             $pdo = $db->getPdo();
 
-            // 3. Récupérer l'utilisateur de la base de données (Théorie : page 17)
+       
             $stmt = $pdo->prepare('SELECT id, username, password FROM users WHERE username = :username');
             $stmt->execute(['username' => $username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            // 4. Vérifier le mot de passe (Théorie : page 18)
+            
             if ($user && password_verify($password, $user['password'])) {
-                // Authentification réussie, stocker l'état de connexion dans la session (Théorie : page 18)
-
-                // 5. Stocker les informations utilisateur dans la session (Théorie : page 18)
+               
                 $_SESSION['user_id'] = $user['id']; 
                 $_SESSION['username'] = $user['username']; 
 
-                // 6. Rediriger vers la page d'accueil (Théorie : page 18)
                 header('Location: index.php'); 
                 exit();
             } else {
-                // Authentification échouée (Théorie : page 18)
+               
                 $erreur = "Nom d'utilisateur ou mot de passe incorrect.";
             }
 
         } catch (Exception $e) {
-            // Gérer une erreur de base de données
+      
             $erreur = "Une erreur est survenue lors de la connexion à la base de données.";
         }
     }

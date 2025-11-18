@@ -23,8 +23,16 @@ $lang = Language::getInstance();
 
         <h4><?= t('home_tagline') ?></h4>
 
-
-        <p><a href="./pages/index.php"><button><?= t('home_go_to_dashboard') ?></button></a></p>
+<?php if ($isLoggedIn): ?>
+            <p><a href="./pages/index.php"><button><?= t('home_go_to_dashboard') ?></button></a></p>
+            <p><a href="./pages/logout.php"><button>Se déconnecter</button></a></p>
+        <?php else: ?>
+            <div style="display: flex; gap: 1rem;">
+                <a href="./pages/login.php" role="button" style="margin: 0;">Se connecter</a>
+                
+                <a href="./pages/register.php" role="button" style="margin: 0;">Inscription</a>
+            </div>
+        <?php endif; ?>
     </main>
 
     <?php include __DIR__ . '/../src/i18n/language-footer.php'; ?>

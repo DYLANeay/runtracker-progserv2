@@ -1,12 +1,17 @@
 <?php
 
-// DOIT ÊTRE LA PREMIÈRE INSTRUCTION
-session_start(); // <-- AJOUTEZ CETTE LIGNE
+
+session_start(); 
+if (!isset($_SESSION['user_id'])) {
+    header('Location: login.php'); 
+    exit(); 
+}
 
 require __DIR__ . '/../../src/utils/autoloader.php';
 require __DIR__ . '/../../src/i18n/Language.php';
 $lang = Language::getInstance();
-// Page de dashboard ou page d'accueil après connexion
+$username = $_SESSION['username'] ?? 'Utilisateur';
+
 
 ?>
 
@@ -25,7 +30,25 @@ $lang = Language::getInstance();
 
 <body>
     <main class="container">
-        <h1><?= t('dashboard_title') ?></h1>
+        <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h1><?= t('dashboard_title') ?></h1>
+            <nav>
+            <ul>
+                <li><strong><?= t('app_name') ?></strong></li>
+            </ul>
+            <ul>
+                <li>
+                    Bienvenue, <strong><?= htmlspecialchars($username) ?></strong> !
+                </li>
+                <li>
+                    <a href="./logout.php" role="button" class="secondary">
+                        Déconnexion
+                    </a>
+                </li>
+            </ul>
+        </nav>
+        </header>
+      
 
         <h3><?= t('dashboard_welcome') ?></h3>
 

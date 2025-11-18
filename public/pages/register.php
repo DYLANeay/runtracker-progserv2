@@ -1,5 +1,5 @@
 <?php
-// Démarrer la session au tout début
+
 session_start();
 
 require __DIR__ . '/../../src/utils/autoloader.php';
@@ -9,13 +9,13 @@ $lang = Language::getInstance();
 $message = '';
 $messageType = '';
 
-// Rediriger si déjà connecté
+
 if (isset($_SESSION['user_id'])) {
     header('Location: index.php');
     exit();
 }
 
-// Gérer la soumission du formulaire
+
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = htmlspecialchars(trim($_POST['username']));
     $email = htmlspecialchars(trim($_POST['email']));
@@ -36,10 +36,8 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $db = new Database();
             $pdo = $db->getPdo();
 
-            // 1. Hacher le mot de passe
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT); // Utilisation de password_hash()
-
-            // 2. Insérer l'utilisateur dans la base de données 
+            
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);  
             $stmt = $pdo->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)');
             
             if ($stmt->execute([
@@ -47,20 +45,20 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 'email' => $email, 
                 'password' => $hashedPassword
             ])) {
-                // Inscription réussie : Démarrer la session et rediriger (comme la page de connexion)
+              
                 $_SESSION['user_id'] = $pdo->lastInsertId();
                 $_SESSION['username'] = $username;
                 
                 header('Location: index.php'); 
                 exit();
             } else {
-                // Cas d'erreur : nom d'utilisateur ou email déjà pris (UNIQUE dans la table users)
+                
                 $message = "Erreur : Nom d'utilisateur ou e-mail déjà utilisé.";
                 $messageType = 'error';
             }
 
         } catch (Exception $e) {
-            // Erreur de connexion ou autre
+
             $message = "Erreur système lors de l'inscription.";
             $messageType = 'error';
         }
