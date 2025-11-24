@@ -2,7 +2,6 @@
 require __DIR__ . '/../../src/i18n/Language.php';
 $lang = Language::getInstance();
 
-// --- Partie PHP : traitement du formulaire ---
 $messageEnvoye = false;
 $erreur = '';
 
@@ -93,7 +92,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <button><a href="./index.php"><?= t('back_to_home') ?></a></button>
     </main>
 
-    <?php include __DIR__ . '/../../src/i18n/language-footer.php'; ?>
+    <?php include __DIR__ . '/../src/i18n/language-footer.php'; ?>
 </body>
 
 </html>

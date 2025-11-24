@@ -7,8 +7,8 @@ if (!isset($_SESSION['user_id'])) {
     exit(); 
 }
 
-require __DIR__ . '/../../src/utils/autoloader.php';
-require __DIR__ . '/../../src/i18n/Language.php';
+require __DIR__ . '/../src/utils/autoloader.php';
+require __DIR__ . '/../src/i18n/Language.php';
 $lang = Language::getInstance();
 $username = $_SESSION['username'] ?? 'Utilisateur';
 
@@ -62,7 +62,7 @@ $username = $_SESSION['username'] ?? 'Utilisateur';
 
     </main>
 
-    <?php include __DIR__ . '/../../src/i18n/language-footer.php'; ?>
+    <?php include __DIR__ . '/../src/i18n/language-footer.php'; ?>
 </body>
 
 </html>

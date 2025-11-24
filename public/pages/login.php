@@ -2,8 +2,8 @@
 
 session_start();
 
-require __DIR__ . '/../../src/utils/autoloader.php';
-require __DIR__ . '/../../src/i18n/Language.php';
+require __DIR__ . '/../src/utils/autoloader.php';
+require __DIR__ . '/../src/i18n/Language.php';
 $lang = Language::getInstance();
 
 $erreur = ''; 
@@ -93,10 +93,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <p><small>Pas encore de compte ? <a href="register.php">Inscrivez-vous ici</a></small></p>
         
         <br>
-        <button><a href="../../index.php"><?= t('back_to_home') ?></a></button>
+        <button><a href="/../index.php"><?= t('back_to_home') ?></a></button>
     </main>
 
-    <?php include __DIR__ . '/../../src/i18n/language-footer.php'; ?>
+    <?php include __DIR__ . '/../src/i18n/language-footer.php'; ?>
 </body>
 
 </html>
