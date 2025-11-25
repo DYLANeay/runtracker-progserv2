@@ -4,15 +4,18 @@ session_start();
 
 require __DIR__ . '/../src/utils/autoloader.php';
 require __DIR__ . '/../src/i18n/Language.php';
+require __DIR__ . '/../src/utils/send_email_welcome.php'; 
 $lang = Language::getInstance();
 
 $message = '';
 $messageType = '';
 
 
+
+
 if (isset($_SESSION['user_id'])) {
-    header('Location: index.php');
-    exit();
+    // header('Location: index.php');
+    // exit();
 }
 
 
@@ -37,7 +40,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             $pdo = $db->getPdo();
 
             
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);  
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT); 
             $stmt = $pdo->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)');
             
             if ($stmt->execute([
@@ -45,7 +48,10 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 'email' => $email, 
                 'password' => $hashedPassword
             ])) {
-              
+                 
+               
+                sendWelcomeEmail($email, $username); 
+                
                 $_SESSION['user_id'] = $pdo->lastInsertId();
                 $_SESSION['username'] = $username;
                 
@@ -88,9 +94,9 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <?php if (!empty($message)): ?>
             <article class="<?= $messageType === 'error' ? 'error' : 'success' ?>" 
-                     style="background-color: <?= $messageType === 'error' ? '#f8d7da' : '#d4edda' ?>; 
-                            color: <?= $messageType === 'error' ? '#721c24' : '#155724' ?>; 
-                            padding: 1rem; border-radius: 5px;">
+                    style="background-color: <?= $messageType === 'error' ? '#f8d7da' : '#d4edda' ?>; 
+                                                 color: <?= $messageType === 'error' ? '#721c24' : '#155724' ?>; 
+                                                 padding: 1rem; border-radius: 5px;">
                 <?= $message ?>
             </article>
         <?php endif; ?>
@@ -98,11 +104,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <form method="post" action="">
             <label for="username">Nom d'utilisateur</label>
             <input type="text" id="username" name="username" required 
-                   value="<?= isset($username) ? htmlspecialchars($username) : '' ?>">
+                                        value="<?= isset($username) ? htmlspecialchars($username) : '' ?>">
 
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required
-                   value="<?= isset($email) ? htmlspecialchars($email) : '' ?>">
+                                        value="<?= isset($email) ? htmlspecialchars($email) : '' ?>">
 
             <label for="password">Mot de passe</label>
             <input type="password" id="password" name="password" required>
