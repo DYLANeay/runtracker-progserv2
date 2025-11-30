@@ -1,15 +1,36 @@
 <?php
 
+/**
+ * Dashboard Page
+ *
+ * Main landing page for authenticated users. Displays the user dashboard
+ * with navigation options to view progress, add new runs, and contact support.
+ *
+ * @uses $_SESSION['user_id'] User ID from session
+ * @uses $_SESSION['username'] Username from session
+ *
+ * Security: Requires authenticated user session
+ * Access: Authenticated users only
+ */
 
-session_start(); 
+session_start();
+
+/**
+ * Check if user is authenticated
+ * Redirects to login page if no valid session exists
+ */
 if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php'); 
-    exit(); 
+    header('Location: login.php');
+    exit();
 }
 
 require __DIR__ . '/../src/utils/autoloader.php';
 require __DIR__ . '/../src/i18n/Language.php';
+
+/** @var Language $lang Language instance for translations */
 $lang = Language::getInstance();
+
+/** @var string $username Current logged-in user's username */
 $username = $_SESSION['username'] ?? 'Utilisateur';
 
 
@@ -33,22 +54,22 @@ $username = $_SESSION['username'] ?? 'Utilisateur';
         <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
             <h1><?= t('dashboard_title') ?></h1>
             <nav>
-            <ul>
-                <li><strong><?= t('app_name') ?></strong></li>
-            </ul>
-            <ul>
-                <li>
-                    Bienvenue, <strong><?= htmlspecialchars($username) ?></strong> !
-                </li>
-                <li>
-                    <a href="./logout.php" role="button" class="secondary">
-                        Déconnexion
-                    </a>
-                </li>
-            </ul>
-        </nav>
+                <ul>
+                    <li><strong><?= t('app_name') ?></strong></li>
+                </ul>
+                <ul>
+                    <li>
+                        Bienvenue, <strong><?= htmlspecialchars($username) ?></strong> !
+                    </li>
+                    <li>
+                        <a href="./logout.php" role="button" class="secondary">
+                            Déconnexion
+                        </a>
+                    </li>
+                </ul>
+            </nav>
         </header>
-      
+
 
         <h3><?= t('dashboard_welcome') ?></h3>
 

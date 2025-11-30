@@ -1,8 +1,27 @@
 <?php
+/**
+ * Create Run Page
+ *
+ * Allows authenticated users to record new running activities.
+ * Validates input data, calculates pace automatically, and stores run in database.
+ *
+ * @uses $_SESSION['user_id'] User ID for associating run with user
+ * @uses $_SESSION['username'] Username for display
+ * @uses $_POST['date'] Run date from form
+ * @uses $_POST['distance'] Distance in kilometers
+ * @uses $_POST['duration'] Duration in HH:MM:SS format
+ * @uses $_POST['notes'] Optional notes about the run
+ *
+ * Security: Requires authenticated user session, input validation and sanitization
+ * Access: Authenticated users only
+ */
 
 session_start();
 
-
+/**
+ * Check if user is authenticated
+ * Redirects to login page if no valid session exists
+ */
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
@@ -10,28 +29,50 @@ if (!isset($_SESSION['user_id'])) {
 
 require __DIR__ . '/../src/utils/autoloader.php';
 require __DIR__ . '/../src/i18n/Language.php';
+
+/** @var Language $lang Language instance for translations */
 $lang = Language::getInstance();
 
-
+/** @var string $username Current logged-in user's username */
 $username = $_SESSION['username'] ?? 'Utilisateur';
+
+/** @var int $user_id Current logged-in user's ID */
 $user_id = $_SESSION['user_id'];
+
+/** @var string $message Success message to display */
 $message = '';
+
+/** @var string $messageType Type of message for styling */
 $messageType = '';
+
+/** @var array $errors Array of validation error messages */
 $errors = [];
 
-
+/** @var string $date Run date from form */
 $date = $distance = $duration_str = $notes = '';
+
+/** @var string $pace Calculated pace in HH:MM:SS format per kilometer */
 $pace = '00:00:00'; 
 
 
+/**
+ * Process run creation form submission
+ * Validates input, calculates pace, and saves run to database
+ */
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    
-    
+    /** @var int $pace_seconds Calculated pace in seconds per kilometer */
     $pace_seconds = 0;
-    
+
+    /** @var string $date Sanitized run date */
     $date = htmlspecialchars(trim($_POST["date"] ?? ''));
+
+    /** @var float $distance Run distance in kilometers */
     $distance = floatval($_POST["distance"] ?? 0);
+
+    /** @var string $duration_str Sanitized duration string in HH:MM:SS format */
     $duration_str = htmlspecialchars(trim($_POST["duration"] ?? ''));
+
+    /** @var string $notes Sanitized run notes */
     $notes = htmlspecialchars(trim($_POST["notes"] ?? ''));
     
 
@@ -49,20 +90,28 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $errors[] = "Le format de la durée doit être HH:MM:SS.";
     }
 
-   
+    /**
+     * Save run to database if validation passes
+     */
     if (empty($errors)) {
         try {
-            $db = new Database(); 
+            $db = new Database();
             $pdo = $db->getPdo();
-            
-        
+
+            /**
+             * Parse duration string and convert to total seconds
+             */
             list($hours, $minutes, $seconds) = sscanf($duration_str, '%d:%d:%d');
             $total_seconds = $hours * 3600 + $minutes * 60 + $seconds;
-            
-            
+
+            /**
+             * Calculate pace in seconds per kilometer
+             */
             $pace_seconds = round($total_seconds / $distance);
-            
-           
+
+            /**
+             * Format pace as HH:MM:SS
+             */
             $pace = sprintf('%02d:%02d:%02d', floor($pace_seconds / 3600), floor(($pace_seconds / 60) % 60), $pace_seconds % 60);
 
             

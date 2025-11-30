@@ -1,8 +1,23 @@
 <?php
+/**
+ * Progress Page
+ *
+ * Displays all recorded runs for the authenticated user in reverse chronological order.
+ * Shows date, distance, duration, pace, and notes for each run.
+ *
+ * @uses $_SESSION['user_id'] User ID for retrieving user's runs
+ * @uses $_SESSION['username'] Username for display
+ *
+ * Security: Requires authenticated user session
+ * Access: Authenticated users only (can only view their own runs)
+ */
 
 session_start();
 
-
+/**
+ * Check if user is authenticated
+ * Redirects to login page if no valid session exists
+ */
 if (!isset($_SESSION['user_id'])) {
     header('Location: login.php');
     exit();
@@ -10,36 +25,57 @@ if (!isset($_SESSION['user_id'])) {
 
 require __DIR__ . '/../src/utils/autoloader.php';
 require __DIR__ . '/../src/i18n/Language.php';
+
+/** @var Language $lang Language instance for translations */
 $lang = Language::getInstance();
 
+/** @var string $username Current logged-in user's username */
 $username = $_SESSION['username'] ?? 'Utilisateur';
+
+/** @var int $user_id Current logged-in user's ID */
 $user_id = $_SESSION['user_id'];
+
+/** @var array $runs Array of run records from database */
 $runs = [];
+
+/** @var string $error_message Error message if database query fails */
 $error_message = '';
 
+/**
+ * Retrieve all runs for the current user from database
+ * Ordered by date in descending order (most recent first)
+ */
 try {
     $db = new Database();
     $pdo = $db->getPdo();
 
-   
+    /**
+     * Query to fetch all runs for the authenticated user
+     * Includes: id, date, distance, duration, pace, notes
+     * Sorted by date (newest first)
+     */
     $stmt = $pdo->prepare('
-        SELECT 
+        SELECT
             id, date, distance, duration, pace, notes
-        FROM 
+        FROM
             runs
-        WHERE 
+        WHERE
             user_id = :user_id
-        ORDER BY 
+        ORDER BY
             date DESC
     ');
-    
+
     $stmt->execute(['user_id' => $user_id]);
-    
-    
+
+    /**
+     * Fetch all runs as associative array
+     */
     $runs = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (Exception $e) {
-   
+    /**
+     * Handle database errors gracefully
+     */
     $error_message = "Erreur lors de la récupération des données : " . $e->getMessage();
 }
 

@@ -1,20 +1,56 @@
 <?php
+/**
+ * Contact Page
+ *
+ * Provides contact form for users to send messages/inquiries.
+ * Validates form input and sends email using PHP mail() function.
+ *
+ * @uses $_POST['nom'] Last name from contact form
+ * @uses $_POST['prenom'] First name from contact form
+ * @uses $_POST['email'] Email address from contact form
+ * @uses $_POST['message'] Message text from contact form
+ *
+ * Security: Input sanitization, email validation
+ * Access: Public (no authentication required)
+ */
+
 require __DIR__ . '/../../src/i18n/Language.php';
+
+/** @var Language $lang Language instance for translations */
 $lang = Language::getInstance();
 
+/** @var bool $messageEnvoye Flag indicating if message was sent successfully */
 $messageEnvoye = false;
+
+/** @var string $erreur Error message to display */
 $erreur = '';
 
+/**
+ * Process contact form submission
+ * Validates input and sends email
+ */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    /** @var string $nom Sanitized last name from form */
     $nom = htmlspecialchars(trim($_POST['nom']));
+
+    /** @var string $prenom Sanitized first name from form */
     $prenom = htmlspecialchars(trim($_POST['prenom']));
+
+    /** @var string $email Sanitized email address from form */
     $email = htmlspecialchars(trim($_POST['email']));
+
+    /** @var string $message Sanitized message text from form */
     $message = htmlspecialchars(trim($_POST['message']));
 
-
+    /**
+     * Validate required fields and email format
+     */
     if (!empty($nom) && !empty($email) && !empty($message)) {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            // Configuration de l'email
+            /**
+             * Configure and send email
+             * TODO: Update recipient email address
+             */
             $to = "votre-adresse@mail.com"; // <-- Mets ici ton adresse de réception
             $subject = "Nouveau message de contact de $nom";
             $body = "Nom : $nom\nEmail : $email\n\nMessage :\n$message";

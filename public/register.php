@@ -1,28 +1,62 @@
 <?php
+/**
+ * Registration Page
+ *
+ * Handles new user registration with validation and account creation.
+ * Creates user account in database, sends welcome email, and establishes session.
+ *
+ * @uses $_SESSION['user_id'] Set on successful registration
+ * @uses $_SESSION['username'] Set on successful registration
+ * @uses $_POST['username'] Username from registration form
+ * @uses $_POST['email'] Email address from registration form
+ * @uses $_POST['password'] Password from registration form
+ * @uses $_POST['password_confirm'] Password confirmation from registration form
+ *
+ * Security: Password hashing using password_hash(), email validation, input sanitization
+ * Access: Public (unauthenticated users)
+ */
 
 session_start();
 
 require __DIR__ . '/../src/utils/autoloader.php';
 require __DIR__ . '/../src/i18n/Language.php';
-require __DIR__ . '/../src/utils/send_email_welcome.php'; 
+require __DIR__ . '/../src/utils/send_email_welcome.php';
+
+/** @var Language $lang Language instance for translations */
 $lang = Language::getInstance();
 
+/** @var string $message Success or error message to display */
 $message = '';
+
+/** @var string $messageType Type of message ('error' or 'success') for styling */
 $messageType = '';
 
 
 
 
+/**
+ * Check if user is already logged in (currently disabled)
+ */
 if (isset($_SESSION['user_id'])) {
     // header('Location: index.php');
     // exit();
 }
 
-
+/**
+ * Process registration form submission
+ * Validates input, creates user account, and sends welcome email
+ */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    /** @var string $username Sanitized username from form */
     $username = htmlspecialchars(trim($_POST['username']));
+
+    /** @var string $email Sanitized email address from form */
     $email = htmlspecialchars(trim($_POST['email']));
-    $password = $_POST['password']; 
+
+    /** @var string $password Raw password from form */
+    $password = $_POST['password'];
+
+    /** @var string $passwordConfirm Password confirmation from form */
     $passwordConfirm = $_POST['password_confirm'];
 
     if (empty($username) || empty($email) || empty($password) || empty($passwordConfirm)) {
