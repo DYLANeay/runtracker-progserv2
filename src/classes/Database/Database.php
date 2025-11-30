@@ -1,9 +1,26 @@
 <?php
+/**
+ * Database Class
+ *
+ * Handles MySQL database connection and table creation.
+ * Implements singleton pattern through DatabaseInterface.
+ * Auto-creates database and tables if they don't exist.
+ *
+ * @uses database.ini Configuration file for database credentials
+ *
+ * Security: Uses PDO with prepared statements, proper charset configuration
+ */
+
+namespace RunTracker\Database;
+
+use PDO;
+use Exception;
 
 class Database implements DatabaseInterface {
 
     const DATABASE_CONFIGURATION_FILE = __DIR__ . '/../config/database.ini';
 
+    /** @var PDO $pdo PDO database connection instance */
     private $pdo;
 
     public function __construct() {

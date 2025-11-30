@@ -1,4 +1,12 @@
 <?php
+/**
+ * Language Footer Component
+ *
+ * Displays language switcher links in the footer.
+ * Allows users to switch between available languages.
+ */
+
+use RunTracker\I18n\Language;
 
 $lang = Language::getInstance();
 $currentLang = $lang->getCurrentLang();

@@ -1,9 +1,33 @@
 <?php
+/**
+ * Language Class
+ *
+ * Handles internationalization (i18n) for the application.
+ * Implements singleton pattern for translation management.
+ * Supports language switching via URL parameters, cookies, or browser settings.
+ *
+ * Supported languages: French (fr), English (en), German (de)
+ *
+ * @uses $_GET['lang'] Language parameter from URL
+ * @uses $_COOKIE['lang'] Stored language preference
+ * @uses $_SERVER['HTTP_ACCEPT_LANGUAGE'] Browser language preference
+ *
+ * Security: Language selection validated against whitelist
+ */
+
+namespace RunTracker\I18n;
 
 class Language {
+    /** @var Language|null $instance Singleton instance */
     private static $instance = null;
+
+    /** @var array $translations Loaded translations for current language */
     private $translations = [];
+
+    /** @var string $currentLang Current active language code */
     private $currentLang = 'fr';
+
+    /** @var array $availableLanguages Whitelist of supported languages */
     private $availableLanguages = ['fr', 'en', 'de'];
 
     private function __construct() {
@@ -59,10 +83,25 @@ class Language {
     }
 }
 
+/**
+ * Translation helper function
+ *
+ * Retrieves translated string for given key in current language.
+ *
+ * @param string $key Translation key
+ * @return string Translated string or key if not found
+ */
 function t($key) {
     return Language::getInstance()->get($key);
 }
 
+/**
+ * Current language helper function
+ *
+ * Returns the currently active language code.
+ *
+ * @return string Current language code (fr, en, de)
+ */
 function currentLang() {
     return Language::getInstance()->getCurrentLang();
 }

@@ -27,6 +27,10 @@ if (!isset($_SESSION['user_id'])) {
 require __DIR__ . '/../src/utils/autoloader.php';
 require __DIR__ . '/../src/i18n/Language.php';
 
+use RunTracker\I18n\Language;
+use function RunTracker\I18n\t;
+use function RunTracker\I18n\currentLang;
+
 /** @var Language $lang Language instance for translations */
 $lang = Language::getInstance();
 
