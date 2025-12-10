@@ -5,6 +5,7 @@ session_start();
 require __DIR__ . '/../src/utils/autoloader.php';
 require __DIR__ . '/../src/i18n/Language.php';
 require __DIR__ . '/../src/utils/send_email_welcome.php'; 
+__DIR__ . '/../config/database.ini';
 $lang = Language::getInstance();
 
 $message = '';
@@ -50,7 +51,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ])) {
                  
                
-                sendWelcomeEmail($email, $username); 
+                // sendWelcomeEmail($email, $username); 
                 
                 $_SESSION['user_id'] = $pdo->lastInsertId();
                 $_SESSION['username'] = $username;
@@ -122,7 +123,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <p><small>Vous avez déjà un compte ? <a href="login.php">Connectez-vous ici</a></small></p>
         
         <br>
-        <button><a href="/../index.php"><?= t('back_to_home') ?></a></button>
+        <button><a href="/../public/index.php"><?= t('back_to_home') ?></a></button>
     </main>
 
     <?php include __DIR__ . '/../src/i18n/language-footer.php'; ?>

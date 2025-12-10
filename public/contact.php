@@ -1,6 +1,16 @@
 <?php
-require __DIR__ . '/../../src/i18n/Language.php';
+
+require __DIR__ . '/../src/i18n/Language.php';
 $lang = Language::getInstance();
+
+
+require __DIR__ . '/../src/classes/PHPMailer/PHPMailer/Exception.php';
+require __DIR__ . '/../src/classes/PHPMailer/PHPMailer/PHPMailer.php';
+require __DIR__ . '/../src/classes/PHPMailer/PHPMailer/SMTP.php';
+
+use PHPMailer\PHPMailer\PHPMailer;
+use PHPMailer\PHPMailer\Exception;
+use PHPMailer\PHPMailer\SMTP;
 
 $messageEnvoye = false;
 $erreur = '';
@@ -11,20 +21,54 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $email = htmlspecialchars(trim($_POST['email']));
     $message = htmlspecialchars(trim($_POST['message']));
 
-
     if (!empty($nom) && !empty($email) && !empty($message)) {
         if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            // Configuration de l'email
-            $to = "votre-adresse@mail.com"; // <-- Mets ici ton adresse de réception
-            $subject = "Nouveau message de contact de $nom";
-            $body = "Nom : $nom\nEmail : $email\n\nMessage :\n$message";
-            $headers = "From: $email";
+            
+           
+            $mail = new PHPMailer(true);
 
-            if (mail($to, $subject, $body, $headers)) {
+            try {
+                
+                $mail->isSMTP();
+                $mail->Host       = 'mail.infomaniak.com'; 
+                $mail->SMTPAuth   = true;
+                
+                
+                $mail->Username   = 'contact@runtracker.ch'; 
+                
+                
+                $mail->Password   = 'Salutpoilu99$'; 
+           
+                $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
+                $mail->Port       = 465;
+
+                
+                $mail->CharSet = 'UTF-8';
+
+                
+                $mail->setFrom($mail->Username, 'Site RunTracker'); 
+                
+               
+                $mail->addAddress('ykem99@gmail.com'); 
+                
+                
+                $mail->addReplyTo($email, "$prenom $nom");
+
+               
+                $mail->isHTML(false); 
+                $mail->Subject = "Nouveau message de contact de $nom";
+                $mail->Body    = "Nom : $nom $prenom\nEmail : $email\n\nMessage :\n$message";
+
+                $mail->send();
                 $messageEnvoye = true;
-            } else {
-                $erreur = t('contact_error_send');
+
+            } catch (Exception $e) {
+               
+                $erreur = t('contact_error_send'); 
+                
             }
+          
+
         } else {
             $erreur = t('contact_error_email');
         }
