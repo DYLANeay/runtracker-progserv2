@@ -66,13 +66,13 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         empty($password) ||
         empty($passwordConfirm)
     ) {
-        $message = "Veuillez remplir tous les champs.";
+        $message = t("register_error_empty");
         $messageType = "error";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $message = "Adresse e-mail invalide.";
+        $message = t("register_error_email");
         $messageType = "error";
     } elseif ($password !== $passwordConfirm) {
-        $message = "Les mots de passe ne correspondent pas.";
+        $message = t("register_error_password_mismatch");
         $messageType = "error";
     } else {
         try {
@@ -99,11 +99,11 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 header("Location: index.php");
                 exit();
             } else {
-                $message = "Erreur : Nom d'utilisateur ou e-mail déjà utilisé.";
+                $message = t("register_error_exists");
                 $messageType = "error";
             }
         } catch (Exception $e) {
-            $message = "Erreur système lors de l'inscription.";
+            $message = t("register_error_system");
             $messageType = "error";
         }
     }
@@ -120,14 +120,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 
-    <title>Inscription | <?= t("app_name") ?></title>
+    <title><?= t("register_title") ?> | <?= t("app_name") ?></title>
 </head>
 
 <body>
     <main class="container">
         <hgroup>
-            <h1>Inscription</h1>
-            <h3>Créez votre compte pour commencer à suivre vos courses.</h3>
+            <h1><?= t("register_title") ?></h1>
+            <h3><?= t("register_subtitle") ?></h3>
         </hgroup>
 
         <?php if (!empty($message)): ?>
@@ -137,38 +137,39 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                     style="background-color: <?= $messageType === "error"
                         ? "#f8d7da"
                         : "#d4edda" ?>;
-                                                 color: <?= $messageType ===
-                                                 "error"
-                                                     ? "#721c24"
-                                                     : "#155724" ?>;
-                                                 padding: 1rem; border-radius: 5px;">
+                           color: <?= $messageType === "error"
+                               ? "#721c24"
+                               : "#155724" ?>;
+                           padding: 1rem; border-radius: 5px;">
                 <?= $message ?>
             </article>
         <?php endif; ?>
 
         <form method="post" action="">
-            <label for="username">Nom d'utilisateur</label>
+            <label for="username"><?= t("register_username") ?></label>
             <input type="text" id="username" name="username" required
-                                        value="<?= isset($username)
-                                            ? htmlspecialchars($username)
-                                            : "" ?>">
+                   value="<?= isset($username)
+                       ? htmlspecialchars($username)
+                       : "" ?>">
 
-            <label for="email">Email</label>
+            <label for="email"><?= t("register_email") ?></label>
             <input type="email" id="email" name="email" required
-                                        value="<?= isset($email)
-                                            ? htmlspecialchars($email)
-                                            : "" ?>">
+                   value="<?= isset($email) ? htmlspecialchars($email) : "" ?>">
 
-            <label for="password">Mot de passe</label>
+            <label for="password"><?= t("register_password") ?></label>
             <input type="password" id="password" name="password" required>
 
-            <label for="password_confirm">Confirmer le mot de passe</label>
+            <label for="password_confirm"><?= t(
+                "register_password_confirm",
+            ) ?></label>
             <input type="password" id="password_confirm" name="password_confirm" required>
 
-            <button type="submit">S'inscrire</button>
+            <button type="submit"><?= t("register_submit") ?></button>
         </form>
 
-        <p><small>Vous avez déjà un compte ? <a href="login.php">Connectez-vous ici</a></small></p>
+        <p><small><?= t("register_has_account") ?> <a href="login.php"><?= t(
+     "register_login_here",
+ ) ?></a></small></p>
 
         <br>
         <button><a href="./index.php"><?= t("back_to_home") ?></a></button>

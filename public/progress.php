@@ -80,8 +80,7 @@ try {
     /**
      * Handle database errors gracefully
      */
-    $error_message =
-        "Erreur lors de la récupération des données : " . $e->getMessage();
+    $error_message = t("progress_error_fetch");
 }
 ?>
 
@@ -106,10 +105,12 @@ try {
                 <li><strong><?= t("app_name") ?></strong></li>
             </ul>
             <ul>
-                <li>Bienvenue, <strong><?= htmlspecialchars(
-                    $username,
-                ) ?></strong> !</li>
-                <li><a href="./logout.php" role="button" class="secondary">Déconnexion</a></li>
+                <li><?= t("welcome_user") ?> <strong><?= htmlspecialchars(
+     $username,
+ ) ?></strong> !</li>
+                <li><a href="./logout.php" role="button" class="secondary"><?= t(
+                    "logout",
+                ) ?></a></li>
             </ul>
         </nav>
     </header>
@@ -124,10 +125,10 @@ try {
         <?php endif; ?>
 
         <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
-            <h2 style="margin: 0;">Vos Courses Enregistrées</h2>
+            <h2 style="margin: 0;"><?= t("progress_your_runs") ?></h2>
             <?php if (!empty($runs)): ?>
             <button id="toggleChartBtn" type="button" class="secondary" style="margin: 0;">
-                Afficher le graphique
+                <?= t("progress_show_chart") ?>
             </button>
             <?php endif; ?>
         </div>
@@ -137,18 +138,20 @@ try {
         </div>
 
         <?php if (empty($runs)): ?>
-            <p>Vous n'avez pas encore enregistré de course. <a href="./create.php">Enregistrez votre première course ici.</a></p>
+            <p><?= t("progress_no_runs") ?> <a href="./create.php"><?= t(
+     "progress_first_run",
+ ) ?></a></p>
         <?php else: ?>
 
             <figure>
             <table role="grid">
                 <thead>
                     <tr>
-                        <th>Date</th>
-                        <th>Distance (km)</th>
-                        <th>Durée</th>
-                        <th>Allure (/km)</th>
-                        <th>Notes</th>
+                        <th><?= t("progress_date") ?></th>
+                        <th><?= t("progress_distance") ?></th>
+                        <th><?= t("progress_duration") ?></th>
+                        <th><?= t("progress_pace") ?></th>
+                        <th><?= t("progress_notes") ?></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -173,8 +176,12 @@ try {
         <?php endif; ?>
 
         <br>
-        <button><a href="./index.php" role="button" class="secondary">Retour au Dashboard</a></button>
-        <button><a href="./create.php" role="button" class="secondary">Ajouter une Course</a></button>
+        <button><a href="./index.php" role="button" class="secondary"><?= t(
+            "progress_back_dashboard",
+        ) ?></a></button>
+        <button><a href="./create.php" role="button" class="secondary"><?= t(
+            "progress_add_run",
+        ) ?></a></button>
 
     </main>
 
@@ -189,20 +196,29 @@ try {
             let chart = null;
             let chartVisible = false;
 
+            // Translations
+            const translations = {
+                chartTitle: <?= json_encode(t("progress_chart_title")) ?>,
+                distance: <?= json_encode(t("progress_chart_distance")) ?>,
+                duration: <?= json_encode(t("progress_chart_duration")) ?>,
+                pace: <?= json_encode(t("progress_chart_pace")) ?>,
+                leftAxis: <?= json_encode(t("progress_chart_left_axis")) ?>,
+                showChart: <?= json_encode(t("progress_show_chart")) ?>,
+                showTable: <?= json_encode(t("progress_show_table")) ?>
+            };
+
             const runsData = <?= json_encode(array_reverse($runs)) ?>;
 
             const dates = runsData.map(run => run.date);
             const distances = runsData.map(run => parseFloat(run.distance));
 
-            console.log(runsData);
-
-            // Convert duration (HH:MM:SS) to minutes for charting
+            // Convert duration
             const durations = runsData.map(run => {
                 const parts = run.duration.split(':');
                 return parseInt(parts[0]) * 60 + parseInt(parts[1]) + parseInt(parts[2]) / 60;
             });
 
-            // Convert pace (MM:SS) to decimal minutes
+            // Convert pace
             const paces = runsData.map(run => {
                 const parts = run.pace.split(':');
                 return parseInt(parts[0]) + parseInt(parts[1]) / 60;
@@ -213,7 +229,7 @@ try {
 
                 const option = {
                     title: {
-                        text: 'Progression de vos courses',
+                        text: translations.chartTitle,
                         left: 'center'
                     },
                     tooltip: {
@@ -223,7 +239,7 @@ try {
                         }
                     },
                     legend: {
-                        data: ['Distance (km)', 'Durée (min)', 'Allure (min/km)'],
+                        data: [translations.distance, translations.duration, translations.pace],
                         top: 30
                     },
                     grid: {
@@ -244,33 +260,33 @@ try {
                     yAxis: [
                         {
                             type: 'value',
-                            name: 'Distance / Durée',
+                            name: translations.leftAxis,
                             position: 'left'
                         },
                         {
                             type: 'value',
-                            name: 'Allure (min/km)',
+                            name: translations.pace,
                             position: 'right',
                             inverse: true
                         }
                     ],
                     series: [
                         {
-                            name: 'Distance (km)',
+                            name: translations.distance,
                             type: 'line',
                             data: distances,
                             smooth: true,
                             itemStyle: { color: '#5470c6' }
                         },
                         {
-                            name: 'Durée (min)',
+                            name: translations.duration,
                             type: 'line',
                             data: durations,
                             smooth: true,
                             itemStyle: { color: '#91cc75' }
                         },
                         {
-                            name: 'Allure (min/km)',
+                            name: translations.pace,
                             type: 'line',
                             yAxisIndex: 1,
                             data: paces,
@@ -295,7 +311,7 @@ try {
                 if (chartVisible) {
                     chartContainer.style.display = 'block';
                     tableContainer.style.display = 'none';
-                    toggleBtn.textContent = 'Afficher le tableau';
+                    toggleBtn.textContent = translations.showTable;
 
                     if (!chart) {
                         initChart();
@@ -305,7 +321,7 @@ try {
                 } else {
                     chartContainer.style.display = 'none';
                     tableContainer.style.display = 'block';
-                    toggleBtn.textContent = 'Afficher le graphique';
+                    toggleBtn.textContent = translations.showChart;
                 }
             });
         })();
