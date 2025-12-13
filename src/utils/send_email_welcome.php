@@ -1,13 +1,34 @@
 
 <?php
+/**
+ * Email Utilities
+ *
+ * Provides email sending functionality for the application.
+ * Uses PHPMailer for SMTP email delivery with welcome email template.
+ *
+ * @uses mail.ini Configuration file for SMTP settings
+ *
+ * Security: Validates configuration, error logging for failures
+ */
+
+namespace RunTracker\Utils;
 
 use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
-use PHPMailer\PHPMailer\SMTP; 
+use PHPMailer\PHPMailer\SMTP;
 
 const MAIL_CONFIGURATION_FILE = __DIR__ . '/../config/mail.ini';
 
-
+/**
+ * Send welcome email to new user
+ *
+ * Sends a formatted HTML welcome email to newly registered users.
+ * Reads SMTP configuration from mail.ini file.
+ *
+ * @param string $recipientEmail Email address of the recipient
+ * @param string $username Username of the new user
+ * @return bool True if email sent successfully, false otherwise
+ */
 function sendWelcomeEmail(string $recipientEmail, string $username): bool
 {
     

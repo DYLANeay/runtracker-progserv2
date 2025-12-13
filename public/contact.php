@@ -1,7 +1,21 @@
 <?php
 
+/**
+ * Contact Page
+ *
+ * Provides contact form for users to send messages/inquiries.
+ * Validates form input and sends email using PHP mail() function.
+ *
+ * @uses $_POST['nom'] Last name from contact form
+ * @uses $_POST['prenom'] First name from contact form
+ * @uses $_POST['email'] Email address from contact form
+ * @uses $_POST['message'] Message text from contact form
+ *
+ * Security: Input sanitization, email validation
+ * Access: Public (no authentication required)
+ */
 require __DIR__ . '/../src/i18n/Language.php';
-$lang = Language::getInstance();
+
 
 
 require __DIR__ . '/../src/classes/PHPMailer/PHPMailer/Exception.php';
@@ -12,13 +26,36 @@ use PHPMailer\PHPMailer\PHPMailer;
 use PHPMailer\PHPMailer\Exception;
 use PHPMailer\PHPMailer\SMTP;
 
+
+
+use RunTracker\I18n\Language;
+use function RunTracker\I18n\t;
+use function RunTracker\I18n\currentLang;
+
+/** @var Language $lang Language instance for translations */
+$lang = Language::getInstance();
+
+/** @var bool $messageEnvoye Flag indicating if message was sent successfully */
 $messageEnvoye = false;
+
+/** @var string $erreur Error message to display */
 $erreur = '';
 
+/**
+ * Process contact form submission
+ * Validates input and sends email
+ */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
+    /** @var string $nom Sanitized last name from form */
     $nom = htmlspecialchars(trim($_POST['nom']));
+
+    /** @var string $prenom Sanitized first name from form */
     $prenom = htmlspecialchars(trim($_POST['prenom']));
+
+    /** @var string $email Sanitized email address from form */
     $email = htmlspecialchars(trim($_POST['email']));
+
+    /** @var string $message Sanitized message text from form */
     $message = htmlspecialchars(trim($_POST['message']));
 
     if (!empty($nom) && !empty($email) && !empty($message)) {
