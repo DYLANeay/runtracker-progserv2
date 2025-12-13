@@ -74,7 +74,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
                 $mail->Username   = 'contact@runtracker.ch'; 
                 
                 
-                $mail->Password   = 'Salutpoilu99$'; 
+                $mail->Password   = 'l-do$m0<k7w:MSio'; 
            
                 $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS; 
                 $mail->Port       = 465;

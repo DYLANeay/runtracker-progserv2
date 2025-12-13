@@ -20,6 +20,8 @@ session_start();
 
 require __DIR__ . "/../src/utils/autoloader.php";
 require __DIR__ . "/../src/i18n/Language.php";
+require __DIR__ . '/../src/utils/send_email_welcome.php'; 
+ __DIR__ . '/../config/database.ini';
 
 use RunTracker\Database\Database;
 use RunTracker\I18n\Language;
