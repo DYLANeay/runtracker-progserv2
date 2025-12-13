@@ -18,33 +18,27 @@
 
 session_start();
 
-require __DIR__ . '/../src/utils/autoloader.php';
-require __DIR__ . '/../src/i18n/Language.php';
-require __DIR__ . '/../config/database.ini';
-require __DIR__ . '/../src/utils/send_email_welcome.php';
+require __DIR__ . "/../src/utils/autoloader.php";
+require __DIR__ . "/../src/i18n/Language.php";
 
 use RunTracker\Database\Database;
 use RunTracker\I18n\Language;
 use function RunTracker\I18n\t;
 use function RunTracker\I18n\currentLang;
-use function RunTracker\Utils\sendWelcomeEmail;
 
 /** @var Language $lang Language instance for translations */
 $lang = Language::getInstance();
 
 /** @var string $message Success or error message to display */
-$message = '';
+$message = "";
 
 /** @var string $messageType Type of message ('error' or 'success') for styling */
-$messageType = '';
-
-
-
+$messageType = "";
 
 /**
  * Check if user is already logged in (currently disabled)
  */
-if (isset($_SESSION['user_id'])) {
+if (isset($_SESSION["user_id"])) {
     // header('Location: index.php');
     // exit();
 }
@@ -55,59 +49,62 @@ if (isset($_SESSION['user_id'])) {
  */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     /** @var string $username Sanitized username from form */
-    $username = htmlspecialchars(trim($_POST['username']));
+    $username = htmlspecialchars(trim($_POST["username"]));
 
     /** @var string $email Sanitized email address from form */
-    $email = htmlspecialchars(trim($_POST['email']));
+    $email = htmlspecialchars(trim($_POST["email"]));
 
     /** @var string $password Raw password from form */
-    $password = $_POST['password'];
+    $password = $_POST["password"];
 
     /** @var string $passwordConfirm Password confirmation from form */
-    $passwordConfirm = $_POST['password_confirm'];
+    $passwordConfirm = $_POST["password_confirm"];
 
-    if (empty($username) || empty($email) || empty($password) || empty($passwordConfirm)) {
+    if (
+        empty($username) ||
+        empty($email) ||
+        empty($password) ||
+        empty($passwordConfirm)
+    ) {
         $message = "Veuillez remplir tous les champs.";
-        $messageType = 'error';
+        $messageType = "error";
     } elseif (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $message = "Adresse e-mail invalide.";
-        $messageType = 'error';
+        $messageType = "error";
     } elseif ($password !== $passwordConfirm) {
         $message = "Les mots de passe ne correspondent pas.";
-        $messageType = 'error';
+        $messageType = "error";
     } else {
         try {
             $db = new Database();
             $pdo = $db->getPdo();
 
-            
-            $hashedPassword = password_hash($password, PASSWORD_DEFAULT); 
-            $stmt = $pdo->prepare('INSERT INTO users (username, email, password) VALUES (:username, :email, :password)');
-            
-            if ($stmt->execute([
-                'username' => $username, 
-                'email' => $email, 
-                'password' => $hashedPassword
-            ])) {
-                 
-               
-                // sendWelcomeEmail($email, $username); 
-                
-                $_SESSION['user_id'] = $pdo->lastInsertId();
-                $_SESSION['username'] = $username;
-                
-                header('Location: index.php'); 
+            $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
+            $stmt = $pdo->prepare(
+                "INSERT INTO users (username, email, password) VALUES (:username, :email, :password)",
+            );
+
+            if (
+                $stmt->execute([
+                    "username" => $username,
+                    "email" => $email,
+                    "password" => $hashedPassword,
+                ])
+            ) {
+                // sendWelcomeEmail($email, $username);
+
+                $_SESSION["user_id"] = $pdo->lastInsertId();
+                $_SESSION["username"] = $username;
+
+                header("Location: index.php");
                 exit();
             } else {
-                
                 $message = "Erreur : Nom d'utilisateur ou e-mail déjà utilisé.";
-                $messageType = 'error';
+                $messageType = "error";
             }
-
         } catch (Exception $e) {
-
             $message = "Erreur système lors de l'inscription.";
-            $messageType = 'error';
+            $messageType = "error";
         }
     }
 }
@@ -123,7 +120,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 
-    <title>Inscription | <?= t('app_name') ?></title> 
+    <title>Inscription | <?= t("app_name") ?></title>
 </head>
 
 <body>
@@ -134,9 +131,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </hgroup>
 
         <?php if (!empty($message)): ?>
-            <article class="<?= $messageType === 'error' ? 'error' : 'success' ?>" 
-                    style="background-color: <?= $messageType === 'error' ? '#f8d7da' : '#d4edda' ?>; 
-                                                 color: <?= $messageType === 'error' ? '#721c24' : '#155724' ?>; 
+            <article class="<?= $messageType === "error"
+                ? "error"
+                : "success" ?>"
+                    style="background-color: <?= $messageType === "error"
+                        ? "#f8d7da"
+                        : "#d4edda" ?>;
+                                                 color: <?= $messageType ===
+                                                 "error"
+                                                     ? "#721c24"
+                                                     : "#155724" ?>;
                                                  padding: 1rem; border-radius: 5px;">
                 <?= $message ?>
             </article>
@@ -144,12 +148,16 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         <form method="post" action="">
             <label for="username">Nom d'utilisateur</label>
-            <input type="text" id="username" name="username" required 
-                                        value="<?= isset($username) ? htmlspecialchars($username) : '' ?>">
+            <input type="text" id="username" name="username" required
+                                        value="<?= isset($username)
+                                            ? htmlspecialchars($username)
+                                            : "" ?>">
 
             <label for="email">Email</label>
             <input type="email" id="email" name="email" required
-                                        value="<?= isset($email) ? htmlspecialchars($email) : '' ?>">
+                                        value="<?= isset($email)
+                                            ? htmlspecialchars($email)
+                                            : "" ?>">
 
             <label for="password">Mot de passe</label>
             <input type="password" id="password" name="password" required>
@@ -161,12 +169,12 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         </form>
 
         <p><small>Vous avez déjà un compte ? <a href="login.php">Connectez-vous ici</a></small></p>
-        
+
         <br>
-        <button><a href="/../public/index.php"><?= t('back_to_home') ?></a></button>
+        <button><a href="./index.php"><?= t("back_to_home") ?></a></button>
     </main>
 
-    <?php include __DIR__ . '/../src/i18n/language-footer.php'; ?>
+    <?php include __DIR__ . "/../src/i18n/language-footer.php"; ?>
 </body>
 
 </html>
