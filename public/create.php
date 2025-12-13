@@ -118,12 +118,20 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             /**
              * Format pace as HH:MM:SS
              */
-            $pace = sprintf(
-                "%02d:%02d:%02d",
-                floor($pace_seconds / 3600),
-                floor(($pace_seconds / 60) % 60),
-                $pace_seconds % 60,
-            );
+         
+
+$seconds_int = (int) round($pace_seconds);
+
+
+$pace = sprintf(
+    "%02d:%02d:%02d",
+    intdiv($seconds_int, 3600),       
+    intdiv($seconds_int, 60) % 60,    
+    $seconds_int % 60                 
+);
+               
+
+           
 
             $stmt = $pdo->prepare('
                 INSERT INTO runs (user_id, date, distance, duration, pace, notes)

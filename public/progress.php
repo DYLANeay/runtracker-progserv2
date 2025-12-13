@@ -145,31 +145,41 @@ try {
 
             <figure>
             <table role="grid">
-                <thead>
-                    <tr>
-                        <th><?= t("progress_date") ?></th>
-                        <th><?= t("progress_distance") ?></th>
-                        <th><?= t("progress_duration") ?></th>
-                        <th><?= t("progress_pace") ?></th>
-                        <th><?= t("progress_notes") ?></th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php foreach ($runs as $run): ?>
-                        <tr>
-                            <td><?= htmlspecialchars($run["date"]) ?></td>
-                            <td><?= htmlspecialchars($run["distance"]) ?></td>
-                            <td><?= htmlspecialchars($run["duration"]) ?></td>
-                            <td><?= htmlspecialchars($run["pace"]) ?></td>
-                            <td><?= htmlspecialchars(
-                                substr($run["notes"], 0, 50),
-                            ) .
-                                (strlen($run["notes"]) > 50
-                                    ? "..."
-                                    : "") ?></td>
-                        </tr>
-                    <?php endforeach; ?>
-                </tbody>
+      <thead>
+    <tr>
+        <th><?= t("progress_date") ?></th>
+        <th><?= t("progress_distance") ?></th>
+        <th><?= t("progress_duration") ?></th>
+        <th><?= t("progress_pace") ?></th>
+        <th><?= t("progress_notes") ?></th>
+        <th>Actions</th> </tr>
+</thead>
+       <tbody>
+    <?php foreach ($runs as $run): ?>
+        <tr>
+            <td><?= htmlspecialchars($run["date"]) ?></td>
+            <td><?= htmlspecialchars($run["distance"]) ?></td>
+            <td><?= htmlspecialchars($run["duration"]) ?></td>
+            <td><?= htmlspecialchars($run["pace"]) ?></td>
+            <td><?= htmlspecialchars(
+                substr($run["notes"], 0, 50),
+            ) .
+                (strlen($run["notes"]) > 50
+                    ? "..."
+                    : "") ?></td>
+            
+            <td>
+                <form action="delete_run.php" method="POST" onsubmit="return confirm('<?= t('progress_confirm_delete') ?>');" style="margin: 0;">
+                    <input type="hidden" name="run_id" value="<?= $run['id'] ?>">
+                    <button type="submit" class="outline contrast" style="padding: 0.2rem 0.5rem; font-size: 0.8rem; border-color: #d93526; color: #d93526;">
+                        X
+                    </button>
+                </form>
+            </td>
+            
+        </tr>
+    <?php endforeach; ?>
+</tbody>
             </table>
             </figure>
 
