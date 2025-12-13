@@ -173,7 +173,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <p><small>Vous avez déjà un compte ? <a href="login.php">Connectez-vous ici</a></small></p>
 
         <br>
-        <button><a href="./index.php"><?= t("back_to_home") ?></a></button>
+        <button><a href="./index.php" role="button" class="secondary"><?= t("back_to_home") ?></a></button>
     </main>
 
     <?php include __DIR__ . "/../src/i18n/language-footer.php"; ?>

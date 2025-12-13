@@ -80,10 +80,10 @@ $username = $_SESSION['username'] ?? 'Utilisateur';
         <h4><?= t('home_tagline') ?></h4>
 
 
-        <button><a href="./progress.php"><?= t('dashboard_view_progress') ?></a></button>
-        <button><a href="./contact.php"><?= t('dashboard_contact_us') ?></a></button>
+        <button><a href="./progress.php" role="button" class="secondary"><?= t('dashboard_view_progress') ?></a></button>
+        <button><a href="./contact.php" role="button" class="secondary"><?= t('dashboard_contact_us') ?></a></button>
 
-        <button><a href="./create.php"><?= t('dashboard_add_run') ?></a></button>
+        <button><a href="./create.php" role="button" class="secondary"><?= t('dashboard_add_run') ?></a></button>
 
     </main>
 
