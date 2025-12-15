@@ -12,7 +12,7 @@ namespace RunTracker\Database;
 
 use PDO;
 
-interface DatabaseInterface {
-
-    public function getPDO(): PDO;
+interface DatabaseInterface
+{
+    public function getPdo(): PDO;
 }

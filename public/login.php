@@ -16,8 +16,8 @@
 
 session_start();
 
-require __DIR__ . '/../src/utils/autoloader.php';
-require __DIR__ . '/../src/i18n/Language.php';
+require __DIR__ . "/../src/utils/autoloader.php";
+require __DIR__ . "/../src/i18n/Language.php";
 
 use RunTracker\Database\Database;
 use RunTracker\I18n\Language;
@@ -28,14 +28,13 @@ use function RunTracker\I18n\currentLang;
 $lang = Language::getInstance();
 
 /** @var string $erreur Error message to display to user */
-$erreur = ''; 
-
+$erreur = "";
 
 /**
  * Redirect to dashboard if user is already logged in
  */
-if (isset($_SESSION['user_id'])) {
-    header('Location: index.php');
+if (isset($_SESSION["user_id"])) {
+    header("Location: index.php");
     exit();
 }
 
@@ -45,40 +44,35 @@ if (isset($_SESSION['user_id'])) {
  */
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     /** @var string $username Sanitized username from form */
-    $username = htmlspecialchars(trim($_POST['username']));
+    $username = htmlspecialchars(trim($_POST["username"]));
 
     /** @var string $password Raw password from form (not sanitized for verification) */
-    $password = $_POST['password']; 
+    $password = $_POST["password"];
 
     if (empty($username) || empty($password)) {
-       
-        $erreur = "Veuillez entrer un nom d'utilisateur et un mot de passe.";
+        $erreur = t("login_error_empty");
     } else {
         try {
             $db = new Database();
             $pdo = $db->getPdo();
 
-       
-            $stmt = $pdo->prepare('SELECT id, username, password FROM users WHERE username = :username');
-            $stmt->execute(['username' => $username]);
+            $stmt = $pdo->prepare(
+                "SELECT id, username, password FROM users WHERE username = :username",
+            );
+            $stmt->execute(["username" => $username]);
             $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
-            
-            if ($user && password_verify($password, $user['password'])) {
-               
-                $_SESSION['user_id'] = $user['id']; 
-                $_SESSION['username'] = $user['username']; 
+            if ($user && password_verify($password, $user["password"])) {
+                $_SESSION["user_id"] = $user["id"];
+                $_SESSION["username"] = $user["username"];
 
-                header('Location: index.php'); 
+                header("Location: index.php");
                 exit();
             } else {
-               
-                $erreur = "Nom d'utilisateur ou mot de passe incorrect.";
+                $erreur = t("login_error_invalid");
             }
-
         } catch (Exception $e) {
-      
-            $erreur = "Une erreur est survenue lors de la connexion à la base de données.";
+            $erreur = t("login_error_invalid");
         }
     }
 }
@@ -94,14 +88,14 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 
-    <title>Connexion | <?= t('app_name') ?></title> 
+    <title><?= t("login_title") ?> | <?= t("app_name") ?></title>
 </head>
 
 <body>
     <main class="container">
         <hgroup>
-            <h1>Connexion</h1>
-            <h3>Veuillez entrer vos identifiants pour accéder à RunTracker.</h3>
+            <h1><?= t("login_title") ?></h1>
+            <h3><?= t("login_subtitle") ?></h3>
         </hgroup>
 
         <?php if (!empty($erreur)): ?>
@@ -111,22 +105,24 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
         <?php endif; ?>
 
         <form method="post" action="">
-            <label for="username">Nom d'utilisateur</label>
+            <label for="username"><?= t("login_username") ?></label>
             <input type="text" id="username" name="username" required>
 
-            <label for="password">Mot de passe</label>
+            <label for="password"><?= t("login_password") ?></label>
             <input type="password" id="password" name="password" required>
 
-            <button type="submit">Se connecter</button>
+            <button type="submit"><?= t("login_submit") ?></button>
         </form>
 
-        <p><small>Pas encore de compte ? <a href="register.php">Inscrivez-vous ici</a></small></p>
-        
+        <p><small><?= t("login_no_account") ?> <a href="register.php"><?= t(
+     "login_register_here",
+ ) ?></a></small></p>
+
         <br>
         <!-- <button><a href="/../index.php"><?= t('back_to_home') ?></a></button> -->
     </main>
 
-    <?php include __DIR__ . '/../src/i18n/language-footer.php'; ?>
+    <?php include __DIR__ . "/../src/i18n/language-footer.php"; ?>
 </body>
 
 </html>

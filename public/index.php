@@ -19,13 +19,13 @@ session_start();
  * Check if user is authenticated
  * Redirects to login page if no valid session exists
  */
-if (!isset($_SESSION['user_id'])) {
-    header('Location: login.php');
+if (!isset($_SESSION["user_id"])) {
+    header("Location: login.php");
     exit();
 }
 
-require __DIR__ . '/../src/utils/autoloader.php';
-require __DIR__ . '/../src/i18n/Language.php';
+require __DIR__ . "/../src/utils/autoloader.php";
+require __DIR__ . "/../src/i18n/Language.php";
 
 use RunTracker\I18n\Language;
 use function RunTracker\I18n\t;
@@ -35,9 +35,7 @@ use function RunTracker\I18n\currentLang;
 $lang = Language::getInstance();
 
 /** @var string $username Current logged-in user's username */
-$username = $_SESSION['username'] ?? 'Utilisateur';
-
-
+$username = $_SESSION["username"] ?? "Utilisateur";
 ?>
 
 <!DOCTYPE html>
@@ -50,24 +48,26 @@ $username = $_SESSION['username'] ?? 'Utilisateur';
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@picocss/pico@2/css/pico.min.css">
     <link rel="stylesheet" href="../assets/css/style.css">
 
-    <title><?= t('dashboard_title') ?> | <?= t('app_name') ?></title>
+    <title><?= t("dashboard_title") ?> | <?= t("app_name") ?></title>
 </head>
 
 <body>
     <main class="container">
         <header style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
-            <h1><?= t('dashboard_title') ?></h1>
+            <h1><?= t("dashboard_title") ?></h1>
             <nav>
                 <ul>
-                    <li><strong><?= t('app_name') ?></strong></li>
+                    <li><strong><?= t("app_name") ?></strong></li>
                 </ul>
                 <ul>
                     <li>
-                        Bienvenue, <strong><?= htmlspecialchars($username) ?></strong> !
+                        <?= t("welcome_user") ?> <strong><?= htmlspecialchars(
+     $username,
+ ) ?></strong> !
                     </li>
                     <li>
                         <a href="./logout.php" role="button" class="secondary">
-                            Déconnexion
+                            <?= t("logout") ?>
                         </a>
                     </li>
                 </ul>
@@ -75,19 +75,19 @@ $username = $_SESSION['username'] ?? 'Utilisateur';
         </header>
 
 
-        <h3><?= t('dashboard_welcome') ?></h3>
+        <h3><?= t("dashboard_welcome") ?></h3>
 
-        <h4><?= t('home_tagline') ?></h4>
+        <h4><?= t("home_tagline") ?></h4>
 
 
-        <button><a href="./progress.php"><?= t('dashboard_view_progress') ?></a></button>
-        <button><a href="./contact.php"><?= t('dashboard_contact_us') ?></a></button>
+        <button><a href="./progress.php" role="button" class="secondary"><?= t('dashboard_view_progress') ?></a></button>
+        <button><a href="./contact.php" role="button" class="secondary"><?= t('dashboard_contact_us') ?></a></button>
 
-        <button><a href="./create.php"><?= t('dashboard_add_run') ?></a></button>
+        <button><a href="./create.php" role="button" class="secondary"><?= t('dashboard_add_run') ?></a></button>
 
     </main>
 
-    <?php include __DIR__ . '/../src/i18n/language-footer.php'; ?>
+    <?php include __DIR__ . "/../src/i18n/language-footer.php"; ?>
 </body>
 
 </html>
