@@ -20,14 +20,18 @@ session_start();
 
 require __DIR__ . '/../src/utils/autoloader.php';
 require __DIR__ . '/../src/i18n/Language.php';
-require __DIR__ . '/../config/database.ini';
+ __DIR__ . '/../config/database.ini';
 require __DIR__ . '/../src/utils/send_email_welcome.php';
+require __DIR__ . "/../src/classes/PHPMailer/PHPMailer/Exception.php";
+require __DIR__ . "/../src/classes/PHPMailer/PHPMailer/PHPMailer.php";
+require __DIR__ . "/../src/classes/PHPMailer/PHPMailer/SMTP.php";
 
 use RunTracker\Database\Database;
 use RunTracker\I18n\Language;
 use function RunTracker\I18n\t;
 use function RunTracker\I18n\currentLang;
 use function RunTracker\Utils\sendWelcomeEmail;
+
 
 /** @var Language $lang Language instance for translations */
 $lang = Language::getInstance();
@@ -91,7 +95,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
             ])) {
                  
                
-                // sendWelcomeEmail($email, $username); 
+                sendWelcomeEmail($email, $username);
                 
                 $_SESSION['user_id'] = $pdo->lastInsertId();
                 $_SESSION['username'] = $username;
@@ -106,7 +110,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
 
         } catch (Exception $e) {
 
-            $message = "Erreur système lors de l'inscription.";
+            $message = $e->getMessage();
             $messageType = 'error';
         }
     }
