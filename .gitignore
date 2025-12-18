@@ -1,0 +1,3 @@
+# Configuration files with sensitive credentials
+src/config/database.ini
+src/config/mail.ini
