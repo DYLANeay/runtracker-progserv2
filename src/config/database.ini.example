@@ -1,0 +1,16 @@
+; Database Configuration Example
+; Copy this file to database.ini and update with your actual credentials
+
+; Production database configuration (commented out)
+; host = your-database-host.example.com
+; port = 3306
+; database = your_production_database
+; username = your_db_username
+; password = your_secure_password_here
+
+; Local development database configuration
+host = localhost
+port = 3306
+database = runtracker_dev
+username = runtracker_user
+password = change_this_password

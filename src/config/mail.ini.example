@@ -1,0 +1,20 @@
+; Mail Configuration Example
+; Copy this file to mail.ini and update with your actual mail server credentials
+
+; Production mail server configuration (commented out)
+; host = "mail.example.com"
+; port = 465
+; authentication = true
+; username = "contact@yourdomain.com"
+; password = "your_email_password_here"
+; from_email = "contact@yourdomain.com"
+; from_name = "Your App Name"
+
+; Local development mail server configuration (using Mailpit or similar)
+host = "localhost"
+port = 1025
+authentication = false
+username = ""
+password = ""
+from_email = "no-reply@localhost"
+from_name = "Local Development Mail"
