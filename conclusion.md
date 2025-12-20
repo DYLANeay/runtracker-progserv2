@@ -141,3 +141,11 @@ Selon moi, le projet a encore beaucoup d'axes d'améliorations, notamment l'inte
 Merci pour ce projet et au plaisir de vous croiser dans les couloirs ou dans une future unité d'enseignement!
 
 #### Valentin
+
+Ce projet a été pour moi une première expérience en matière de déploiement de site via FileZilla, et j'ai pris beaucoup de plaisir à implémenter les différentes fonctionnalités. Ce travail m'a également permis de découvrir GitHub et de collaborer avec Dylan, un futur brillant Ingénieur des Médias.
+
+J'ai énormément appris durant ce projet. Le fait de concevoir un site de A à Z avec une telle liberté m'a réellement motivé à donner le meilleur de moi-même. J'ai eu beaucoup de plaisir à coder et, étonnamment, j'ai découvert que le PHP est un langage très intéressant.
+
+Comme Dylan l'a souligné, l'interface laisse encore à désirer. Pour améliorer le site, nous pourrions envisager l'intégration d'une API d'application de running. Cela permettrait de récupérer les données d'activité en direct, évitant ainsi la saisie manuelle et ne laissant à l'utilisateur que la rédaction de la description de sa course.
+
+Ce projet était particulièrement complet et m'a donné du fil à retordre. Je vous en remercie et au plaisir de vous recroiser dans les couloirs ou dans un autre module d'enseignement !
