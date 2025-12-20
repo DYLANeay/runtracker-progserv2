@@ -134,11 +134,11 @@ Les principales réussites du projet sont :
 
 #### Dylan 
 
-Ce projet m'a beaucoup plus, je me suis amusé à intégrer certains principes de POO vu en DAI2 l'année passée (notamment le Singleton) que je n'avais pas forcément eu l'occasion de mettre en pratique auparavant. La charge de travail m'a semblé cohérente. 
+Ce projet m'a beaucoup plus, je me suis amusé à intégrer certains principes/design pattern de POO vu en DAI2 l'année passée (notamment le Singleton) que je n'avais pas forcément eu l'occasion de mettre en pratique auparavant. La charge de travail m'a semblé cohérente, et l'idée de noté la régularité me semble tout à fait idoine. 
 
 Selon moi, le projet a encore beaucoup d'axes d'améliorations, notamment l'interface qui est assez primaire (pour ne pas dire dégeulasse ^^) ainsi que les fonctionnalités utilisateurs qui pourraient/devraient être bien plus poussées dans un vrai projet. Nous ne nous sommes pas non plus attardés sur l'optimisation en elle-même, qui pourrait être revue sur certains points (réutilisation de code et du header/footer par exemple). 
 
-Merci pour ce projet et au plaisir de vous croiser dans les couloirs ou dans une future unité d'enseignement!
+Merci pour ce projet et au plaisir de vous croiser dans les couloirs ou dans une future unité d'enseignement (ou dans un apéro, aussi) !
 
 #### Valentin
 
